@@ -1,5 +1,4 @@
 # [ESX] smd_applepicking
-
 Adds simple and easy, apple picking, juice making and juice selling to your server
 
 # About
