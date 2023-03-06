@@ -49,12 +49,23 @@ AddEventHandler('smd_applepicking:animation', function(which, amount)
             end
 
             isAnimPlaying = true
+            
+            if Config.UseProgressBar then
+                exports['smd_progressbar']:SMD_Progressbar({
+                    name = "selling",
+                    time = 12200,
+                    label = Config.Locales["sellingjuice"],
+                    icon = "fa-regular fa-money-bill-1",
+                })
+            end
+            
             TaskPlayAnim(ped, "mp_common", "givetake1_a", 8.0, 3.0, -1, 1, 1, false, false, false)
             
             Citizen.Wait(2200)
             ClearPedTasks(ped)
             TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_CLIPBOARD', 0, false)
             Citizen.Wait(10000)
+
             ClearPedTasks(ped)
             TriggerServerEvent('smd_applepicking:sell')
             isAnimPlaying = false
@@ -69,13 +80,23 @@ AddEventHandler('smd_applepicking:animation', function(which, amount)
                 Citizen.Wait(1)
             end
             
+            local time = math.random(1, 3)
+
+            if Config.UseProgressBar then
+                exports['smd_progressbar']:SMD_Progressbar({
+                    name = "Makingjuice",
+                    time = 5000 + (8000 * time),
+                    label = Config.Locales["makingjuice"],
+                    icon = "fa-sharp fa-solid fa-wine-bottle",
+                })
+            end
+
             TaskPlayAnim(ped, "anim@amb@business@coc@coc_packing@", "load_press_basicmould_v1_pressoperator", 8.0, 3.0, -1, 1, 1, false, false, false)
             
             Citizen.Wait(5000)
             
             TaskPlayAnim(ped, "anim@amb@business@coc@coc_packing@", "operate_press_basicmould_v1_pressoperator", 8.0, 3.0, -1, 1, 1, false, false, false)
    
-            local time = math.random(1, 3)
             
             Citizen.Wait(8000 * time)
 
@@ -109,6 +130,16 @@ Citizen.CreateThread(function()
 
                             SetEntityHeading(ped, 180.0)
                             TaskPlayAnim(playerPed, "weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor", 8.0, -8.0, 1200, 2, 0, false, false, false)
+                            
+                            if Config.UseProgressBar then
+                                exports['smd_progressbar']:SMD_Progressbar({
+                                    name = "Takingbottle",
+                                    time = 1200,
+                                    label = Config.Locales["takingbottle"],
+                                    icon = "fa-sharp fa-solid fa-wine-bottle",
+                                })
+                            end
+
                             Citizen.Wait(1200)
 
                             TriggerServerEvent("smd_applepicking:giveBottle")
@@ -143,11 +174,10 @@ Citizen.CreateThread(function()
 			local distance = #(playerCoords - v)
 			if distance < 1.5 then
 				sleep = 4
-                if not alreadyPressing then
+                if not alreadyPressing and (not tried or bottleGiven) then
                     DrawText3D(v, Config.Locales["makeJuice"])
                     if distance < 1.0 then
                         if IsControlPressed(0, 38) then
-
                             ESX.TriggerServerCallback('smd_applepicking:doesHave', function(doesHaveApples, amount)
                                 ESX.TriggerServerCallback('smd_applepicking:doesHave', function(doesHaveBottle)
                                     Citizen.Wait(50)
@@ -225,6 +255,16 @@ function Search(tree)
             searching = true
             local time = math.random(10000, 25000)
             TaskPlayAnim(ped, "amb@prop_human_movie_bulb@idle_a", "idle_a", 8.0, 3.0, -1, 1, 1, false, false, false)
+            
+            if Config.UseProgressBar then
+                exports['smd_progressbar']:SMD_Progressbar({
+                    name = "Juicemaking",
+                    time = time,
+                    label = Config.Locales["pickingapple"],
+                    icon = "fa-sharp fa-solid fa-apple-whole",
+                })
+            end
+            
             Citizen.Wait(time)
 
             ESX.TriggerServerCallback('smd_applepicking:giveApple', function(found)

@@ -2,6 +2,7 @@ Config = {}
 
 Config.UseMythic = true -- If true it uses Mythic_notify, if false it uses default ESX notification
 Config.UseDarkArrow = true -- If true, DrawText3D will be like dark arrow in the ground, if false it will normal 3D text, test to see, hard to explain :D
+Config.UseProgressBar = true -- If true, you will use smd_progressbar, if false, there is no progressbar
 
 Config.AppleItem = "apple" -- Apple item name in your database
 Config.JuiceItem = "applejuice" -- Applejuice item name in your database
@@ -42,6 +43,12 @@ Config.Locales = {
     ["removeEmptyBottle"] = "-1x Empty bottle",
 
     ["currency"] = "€",
+
+    ["pickingapple"] = "Picking an apple...",
+    ["takingbottle"] = "Taking a bottle...",
+    ["makingjuice"] = "Making applejuice...",
+    ["sellingjuice"] = "Selling applejuice...",
+    
 }
 
 
